@@ -406,11 +406,36 @@ if (statsCards.length) {
   });
 }
 
+// ---------------- Authentication Helper ----------------
+function getAuthToken() {
+  return localStorage.getItem('token');
+}
+
+function getAuthHeaders() {
+  const token = getAuthToken();
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : ''
+  };
+}
+
+function checkAuth() {
+  const token = getAuthToken();
+  if (!token) {
+    window.location.href = '/login';
+    return false;
+  }
+  return true;
+}
+
 // ---------------- Journal Feature ----------------
 const journalForm = document.getElementById('journalForm');
 if (journalForm) {
   journalForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    if (!checkAuth()) return;
+    
     const title = document.getElementById('journalTitle').value.trim();
     const content = document.getElementById('journalContent').value.trim();
     
@@ -422,7 +447,7 @@ if (journalForm) {
     try {
       const res = await fetch('/api/journal', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ 
           title: title || 'Untitled', 
           content 
@@ -434,9 +459,15 @@ if (journalForm) {
       if (result.success) {
         alert('Journal entry saved successfully!');
         journalForm.reset();
-        loadJournalEntries();
+        if (typeof loadJournalEntries === 'function') {
+          loadJournalEntries();
+        }
       } else {
-        throw new Error(result.error || 'Failed to save entry');
+        if (result.error && result.error.includes('Authentication')) {
+          window.location.href = '/login';
+        } else {
+          throw new Error(result.error || 'Failed to save entry');
+        }
       }
     } catch (err) {
       console.error('❌ Error saving journal entry:', err);
@@ -449,8 +480,18 @@ const journalList = document.getElementById('journalList');
 async function loadJournalEntries() {
   if (!journalList) return;
   
+  if (!checkAuth()) return;
+  
   try {
-    const res = await fetch('/api/journal');
+    const res = await fetch('/api/journal', {
+      headers: getAuthHeaders()
+    });
+    
+    if (res.status === 401 || res.status === 403) {
+      window.location.href = '/login';
+      return;
+    }
+    
     if (!res.ok) throw new Error('Failed to fetch journal entries');
     
     const response = await res.json();
@@ -458,18 +499,21 @@ async function loadJournalEntries() {
     journalList.innerHTML = '';
     
     if (!entries || entries.length === 0) {
-      journalList.innerHTML = '<p class="no-data">No journal entries yet. Start writing!</p>';
+      journalList.innerHTML = '<div class="no-data" style="grid-column: 1 / -1;"><p>No journal entries yet. Start writing!</p></div>';
       return;
     }
 
-    entries.forEach(entry => {
+    entries.forEach((entry, index) => {
       const div = document.createElement('div');
-      div.classList.add('journal-entry', 'fade-in');
+      // Use journal-card for grid layout in journal-folder, journal-entry for other layouts
+      const isGridLayout = journalList.id === 'journalList' && journalList.closest('.journal-container');
+      div.classList.add(isGridLayout ? 'journal-card' : 'journal-entry', 'fade-in');
+      div.style.animationDelay = `${index * 0.1}s`;
       div.innerHTML = `
-        <h3>${escapeHtml(entry.title)}</h3>
+        <h${isGridLayout ? '4' : '3'}>${escapeHtml(entry.title || 'Untitled')}</h${isGridLayout ? '4' : '3'}>
         <p>${escapeHtml(entry.content)}</p>
         <small>${new Date(entry.created_at).toLocaleString()}</small>
-        <button class="deleteJournal" data-id="${entry.id}" title="Delete entry">Delete</button>
+        <button class="deleteJournal" data-id="${entry.id}" title="Delete entry">Delete Entry</button>
       `;
       journalList.appendChild(div);
     });
@@ -480,8 +524,14 @@ async function loadJournalEntries() {
         if (confirm('Are you sure you want to delete this journal entry?')) {
           try {
             const res = await fetch(`/api/journal/${id}`, { 
-              method: 'DELETE' 
+              method: 'DELETE',
+              headers: getAuthHeaders()
             });
+            
+            if (res.status === 401 || res.status === 403) {
+              window.location.href = '/login';
+              return;
+            }
             
             if (res.ok) {
               loadJournalEntries();

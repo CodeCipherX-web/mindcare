@@ -23,8 +23,23 @@
       <a href="/contact">Contact</a>
       <a href="/journal">Journal</a>
       <a href="/journal-folder">My Journal Folder</a>
+      <span id="authLinks">
+        <a href="/login" id="loginLink">Login</a>
+        <a href="/signup" id="signupLink" style="background: #00796b; color: white; padding: 0.5rem 1rem; border-radius: 5px; margin-left: 0.5rem;">Sign Up</a>
+      </span>
     </nav>
   </header>
+  <script>
+    // Update navigation based on auth status
+    if (localStorage.getItem('token')) {
+      const authLinks = document.getElementById('authLinks');
+      const username = localStorage.getItem('username') || 'User';
+      authLinks.innerHTML = `
+        <span style="margin-right: 1rem; color: #00796b; font-weight: 500;">Welcome, ${username}</span>
+        <a href="#" onclick="localStorage.removeItem('token'); localStorage.removeItem('userId'); localStorage.removeItem('username'); window.location.href='/';" style="color: #c62828;">Logout</a>
+      `;
+    }
+  </script>
 
   <!-- Hero Section -->
   <section class="hero" style="background: linear-gradient(to right, #e0f7fa, #fffaf0); text-align:center; padding:3rem 1rem;">

@@ -23,7 +23,21 @@
       <a href="/contact">Contact</a>
       <a href="/journal">Journal</a>
       <a href="/journal-folder">My Journal Folder</a>
+      <span id="authLinks">
+        <a href="/login" id="loginLink">Login</a>
+        <a href="/signup" id="signupLink" style="background: #00796b; color: white; padding: 0.5rem 1rem; border-radius: 5px; margin-left: 0.5rem;">Sign Up</a>
+      </span>
     </nav>
+    <script>
+      if (localStorage.getItem('token')) {
+        const authLinks = document.getElementById('authLinks');
+        const username = localStorage.getItem('username') || 'User';
+        authLinks.innerHTML = `
+          <span style="margin-right: 1rem; color: #00796b; font-weight: 500;">Welcome, ${username}</span>
+          <a href="#" onclick="localStorage.removeItem('token'); localStorage.removeItem('userId'); localStorage.removeItem('username'); window.location.href='/';" style="color: #c62828;">Logout</a>
+        `;
+      }
+    </script>
   </header>
 
   <!-- Hero Section -->
@@ -34,12 +48,23 @@
 
   <!-- Journal Entry Form -->
   <section class="journal-container">
-    <div class="journal-card">
-      <h3>New Entry</h3>
+    <div class="journal-card journal-form-card">
+      <div class="journal-header">
+        <h3>✨ New Journal Entry</h3>
+        <p class="journal-subtitle">Express your thoughts and feelings freely</p>
+      </div>
       <form id="journalForm">
-        <input type="text" id="journalTitle" placeholder="Entry Title (optional)">
-        <textarea id="journalContent" rows="10" placeholder="Write your thoughts here..."></textarea>
-        <button type="submit">Save Entry</button>
+        <div class="form-group">
+          <label for="journalTitle">Title (Optional)</label>
+          <input type="text" id="journalTitle" placeholder="Give your entry a title...">
+        </div>
+        <div class="form-group">
+          <label for="journalContent">Your Thoughts</label>
+          <textarea id="journalContent" rows="12" placeholder="Write your thoughts, feelings, and experiences here..."></textarea>
+        </div>
+        <button type="submit" class="journal-submit-btn">
+          <span>💾 Save Entry</span>
+        </button>
       </form>
     </div>
   </section>
@@ -52,5 +77,11 @@
   </footer>
 
   <script src="/js/main.js"></script>
+  <script>
+    // Check authentication on page load
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/login';
+    }
+  </script>
 </body>
 </html>

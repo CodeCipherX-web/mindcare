@@ -4,6 +4,8 @@ const path = require('path');
 const cors = require('cors');
 const mariadb = require('mariadb');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -100,7 +102,169 @@ const handleDbOperation = async (res, operation) => {
   }
 };
 
+// JWT Secret (use environment variable or default for development)
+const JWT_SECRET = process.env.JWT_SECRET || 'mindcare-secret-key-change-in-production';
+
+// Authentication Middleware
+const authenticateToken = async (req, res, next) => {
+  try {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1] || req.body.token || req.query.token;
+
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Authentication required. Please login.' 
+      });
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.userId = decoded.userId;
+    req.username = decoded.username;
+    next();
+  } catch (err) {
+    return res.status(403).json({ 
+      success: false, 
+      error: 'Invalid or expired token. Please login again.' 
+    });
+  }
+};
+
 // ---------------- API Routes (Must be before static files) ----------------
+
+// ---------------- Authentication APIs ----------------
+app.post('/api/auth/signup', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Username, email, and password are required' 
+    });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Password must be at least 6 characters long' 
+    });
+  }
+
+  let conn;
+  try {
+    conn = await getDbConnection();
+    
+    // Check if user already exists
+    const existingUser = await conn.query(
+      'SELECT id FROM users WHERE username = ? OR email = ?',
+      [username, email]
+    );
+
+    if (existingUser.length > 0) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Username or email already exists' 
+      });
+    }
+
+    // Hash password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Create user
+    const result = await conn.query(
+      'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+      [username, email, passwordHash]
+    );
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: result.insertId, username },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({ 
+      success: true, 
+      token,
+      userId: result.insertId,
+      username,
+      message: 'Account created successfully'
+    });
+  } catch (err) {
+    console.error('❌ Signup error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to create account',
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ 
+      success: false, 
+      error: 'Username and password are required' 
+    });
+  }
+
+  let conn;
+  try {
+    conn = await getDbConnection();
+    
+    // Find user
+    const users = await conn.query(
+      'SELECT id, username, email, password_hash FROM users WHERE username = ? OR email = ?',
+      [username, username]
+    );
+
+    if (users.length === 0) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Invalid username or password' 
+      });
+    }
+
+    const user = users[0];
+
+    // Verify password
+    const validPassword = await bcrypt.compare(password, user.password_hash);
+    if (!validPassword) {
+      return res.status(401).json({ 
+        success: false, 
+        error: 'Invalid username or password' 
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({ 
+      success: true, 
+      token,
+      userId: user.id,
+      username: user.username,
+      message: 'Login successful'
+    });
+  } catch (err) {
+    console.error('❌ Login error:', err);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to login',
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  } finally {
+    if (conn) conn.release();
+  }
+});
 
 // ---------------- Mood Tracker APIs ----------------
 app.get('/api/moods', async (req, res) => {
@@ -171,15 +335,18 @@ app.delete('/api/moods/:id', async (req, res) => {
   }
 });
 
-// ---------------- Journal APIs ----------------
-app.get('/api/journal', async (req, res) => {
+// ---------------- Journal APIs (Require Authentication) ----------------
+app.get('/api/journal', authenticateToken, async (req, res) => {
   await handleDbOperation(res, async (conn) => {
-    const rows = await conn.query('SELECT * FROM journal_entries ORDER BY created_at DESC');
+    const rows = await conn.query(
+      'SELECT * FROM journal_entries WHERE user_id = ? ORDER BY created_at DESC',
+      [req.userId]
+    );
     return { success: true, data: rows };
   });
 });
 
-app.post('/api/journal', async (req, res) => {
+app.post('/api/journal', authenticateToken, async (req, res) => {
   const { title, content } = req.body;
   
   if (!content || content.trim().length === 0) {
@@ -191,8 +358,8 @@ app.post('/api/journal', async (req, res) => {
 
   await handleDbOperation(res, async (conn) => {
     const result = await conn.query(
-      'INSERT INTO journal_entries (user_id, title, content, created_at) VALUES (1, ?, ?, NOW())',
-      [title?.trim() || 'Untitled', content.trim()]
+      'INSERT INTO journal_entries (user_id, title, content, created_at) VALUES (?, ?, ?, NOW())',
+      [req.userId, title?.trim() || 'Untitled', content.trim()]
     );
     return { 
       success: true, 
@@ -202,7 +369,7 @@ app.post('/api/journal', async (req, res) => {
   });
 });
 
-app.delete('/api/journal/:id', async (req, res) => {
+app.delete('/api/journal/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   
   if (!id || isNaN(id)) {
@@ -215,14 +382,20 @@ app.delete('/api/journal/:id', async (req, res) => {
   let conn;
   try {
     conn = await getDbConnection();
-    const result = await conn.query('DELETE FROM journal_entries WHERE id = ?', [parseInt(id)]);
+    // Verify the entry belongs to the user
+    const entry = await conn.query(
+      'SELECT id FROM journal_entries WHERE id = ? AND user_id = ?',
+      [parseInt(id), req.userId]
+    );
     
-    if (result.affectedRows === 0) {
+    if (entry.length === 0) {
       return res.status(404).json({ 
         success: false, 
         error: 'Journal entry not found' 
       });
     }
+    
+    const result = await conn.query('DELETE FROM journal_entries WHERE id = ? AND user_id = ?', [parseInt(id), req.userId]);
     
     res.json({ 
       success: true, 
@@ -332,6 +505,8 @@ app.get('/resources', (req, res) => res.sendFile(path.join(viewsPath, 'resources
 app.get('/chatbot', (req, res) => res.sendFile(path.join(viewsPath, 'chatbot.html')));
 app.get('/mood-tracker', (req, res) => res.sendFile(path.join(viewsPath, 'mood-tracker.html')));
 app.get('/contact', (req, res) => res.sendFile(path.join(viewsPath, 'contact.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(viewsPath, 'login.html')));
+app.get('/signup', (req, res) => res.sendFile(path.join(viewsPath, 'signup.html')));
 app.get('/journal', (req, res) => res.sendFile(path.join(viewsPath, 'journal.html')));
 app.get('/journal-folder', (req, res) => res.sendFile(path.join(viewsPath, 'journal-folder.html')));
 

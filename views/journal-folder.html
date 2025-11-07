@@ -46,70 +46,17 @@
 
   <script src="/js/main.js"></script>
   <script>
-    // Utility function to prevent XSS
-    function escapeHtml(unsafe) {
-      return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    // Check authentication on page load
+    if (!localStorage.getItem('token')) {
+      window.location.href = '/login';
     }
-
-    const journalList = document.getElementById('journalList');
-
-    async function loadJournal() {
-      if (!journalList) return;
-      
-      try {
-        const res = await fetch('/api/journal');
-        if (!res.ok) throw new Error('Failed to fetch journal entries');
-        
-        const response = await res.json();
-        const entries = (response.success && Array.isArray(response.data)) ? response.data : [];
-        journalList.innerHTML = '';
-
-        if (entries.length === 0) {
-          journalList.innerHTML = '<p class="no-data">No journal entries yet. Start writing!</p>';
-          return;
-        }
-
-        entries.forEach(entry => {
-          const div = document.createElement('div');
-          div.classList.add('journal-card');
-          div.innerHTML = `
-            <h4>${escapeHtml(entry.title || 'Untitled')}</h4>
-            <p>${escapeHtml(entry.content)}</p>
-            <small>${new Date(entry.created_at).toLocaleString()}</small>
-            <button class="deleteBtn">Delete</button>
-          `;
-          journalList.appendChild(div);
-
-          div.querySelector('.deleteBtn').addEventListener('click', async () => {
-            if (confirm('Delete this entry?')) {
-              try {
-                const deleteRes = await fetch(`/api/journal/${entry.id}`, { method: 'DELETE' });
-                if (deleteRes.ok) {
-                  loadJournal();
-                } else {
-                  throw new Error('Failed to delete entry');
-                }
-              } catch (err) {
-                console.error("Failed to delete entry:", err);
-                alert('Failed to delete journal entry. Please try again.');
-              }
-            }
-          });
-        });
-      } catch (err) {
-        console.error("Failed to load journal:", err);
-        if (journalList) {
-          journalList.innerHTML = '<p class="error">Failed to load journal entries</p>';
-        }
+    
+    // Load journal entries after a short delay to ensure main.js is loaded
+    setTimeout(() => {
+      if (typeof loadJournalEntries === 'function') {
+        loadJournalEntries();
       }
-    }
-
-    if (journalList) loadJournal();
+    }, 100);
   </script>
 </body>
 </html>
