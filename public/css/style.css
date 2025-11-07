@@ -1,0 +1,635 @@
+/* ---------------- Global Styles ---------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom right, #f0f8ff, #e0f7fa);
+  color: #333;
+  line-height: 1.6;
+}
+
+/* ---------------- Header ---------------- */
+header {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+header h1 {
+  font-weight: 600;
+  color: #00796b;
+}
+
+nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #00796b;
+}
+
+/* ---------------- Hero Section ---------------- */
+.hero {
+  text-align: center;
+  padding: 6rem 2rem 4rem;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  color: #00796b;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #555;
+}
+
+/* Hero CTA Button */
+.hero .cta-btn {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  background: #00796b;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.hero .cta-btn:hover {
+  background: #004d40;
+  transform: translateY(-3px);
+}
+
+/* ---------------- Card Layout ---------------- */
+.cards, .chat-container, .tracker-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+}
+
+.card, .chat-card, .sidebar-card, .tracker-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  flex: 1 1 300px;
+  max-width: 400px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover, .chat-card:hover, .sidebar-card:hover, .tracker-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.card h3, .chat-card h3, .sidebar-card h3, .tracker-card h3 {
+  margin-bottom: 1rem;
+  color: #00796b;
+}
+
+/* Card Links (Home & Resources) */
+.cards .card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+  color: #00796b;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.cards .card a:hover {
+  color: #004d40;
+  transform: translateY(-2px);
+}
+
+/* Enhanced Card Hover Effect */
+.cards .card {
+  background: linear-gradient(to bottom right, #ffffff, #f0f8ff);
+  text-align: left;
+}
+
+.cards .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  background: linear-gradient(to bottom right, #e0f7fa, #b2ebf2);
+}
+
+/* ---------------- Stats Section ---------------- */
+.stats {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom right, #e0f7fa, #f0f8ff);
+}
+
+.stat-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: linear-gradient(to bottom right, #ffffff, #b2ebf2);
+  border-radius: 12px;
+  padding: 2rem;
+  flex: 1 1 200px;
+  max-width: 250px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  background: linear-gradient(to bottom right, #b2ebf2, #80deea);
+}
+
+.stat-card h3 {
+  color: #00796b;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ---------------- Chatbot ---------------- */
+#chatInput {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  margin-top: 1rem;
+}
+
+#sendBtn {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 25px;
+  background: #00796b;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#sendBtn:hover {
+  background: #004d40;
+}
+
+#chatOutput {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #f8f8f8;
+  margin-bottom: 1rem;
+}
+
+
+.sidebar-card p {
+  margin-bottom: 1rem;
+  font-style: italic;
+  color: #00796b;
+}
+
+.chat-message.You { font-weight: 600; color: #333; }
+.chat-message.MindCare { color: #00796b; font-weight: 500; }
+
+
+/* ---------------- Mood Tracker Section ---------------- */
+.tracker-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  flex-wrap: wrap;
+}
+
+.tracker-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  flex: 1 1 300px;
+  max-width: 400px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tracker-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.tracker-card h3 {
+  color: #00796b;
+  margin-bottom: 1rem;
+}
+
+/* Mood Dropdown */
+select#moodSelect {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+/* Log Button */
+button#logMood {
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 25px;
+  background: #00796b;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button#logMood:hover {
+  background: #004d40;
+}
+
+/* Mood History */
+.mood-history {
+  margin-top: 1rem;
+  max-height: 250px;
+  overflow-y: auto;
+  text-align: left;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f8f8f8;
+}
+
+.mood-history p {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #00796b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Delete Button */
+.mood-history .deleteBtn {
+  background: #e57373;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.3s;
+}
+
+.mood-history .deleteBtn:hover {
+  background: #c62828;
+}
+
+/* Mood Graph */
+canvas#moodChart {
+  margin-top: 1rem;
+  border-radius: 12px;
+  background: #fff;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* ---------------- Contact Page Section ---------------- */
+.contact-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  background: linear-gradient(to bottom right, #f0f8ff, #e0f7fa);
+}
+
+.contact-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  flex: 1 1 300px;
+  max-width: 400px;
+  text-align: left;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.contact-card h3 {
+  color: #00796b;
+  margin-bottom: 1rem;
+}
+
+.contact-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-card input,
+.contact-card textarea {
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  resize: none;
+}
+
+.contact-card textarea {
+  min-height: 120px;
+}
+
+.contact-card button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  background: #00796b;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-card button:hover {
+  background: #004d40;
+}
+
+.contact-info {
+  margin-top: 1rem;
+}
+
+.contact-info p {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.contact-info p i {
+  color: #00796b;
+  margin-right: 0.8rem;
+}
+
+/* ---------------- Footer ---------------- */
+footer {
+  background: #00796b;
+  color: #fff;
+  padding: 2rem;
+}
+
+footer .footer-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+footer input[type="email"] {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 25px;
+  margin-right: 0.5rem;
+  outline: none;
+}
+
+footer button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 25px;
+  background: #fff;
+  color: #00796b;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+footer button:hover {
+  background: #004d40;
+  color: #fff;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 900px) {
+  .chat-container, .tracker-container, .cards, .stat-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card, .chat-card, .sidebar-card, .tracker-card, .stat-card {
+    max-width: 90%;
+  }
+
+  .tracker-card {
+    max-width: 90%;
+  }
+
+  .contact-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-card {
+    max-width: 90%;
+  }
+}
+
+/* ---------------- Journal Pages (Enhanced) ---------------- */
+.journal-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.5rem;
+  max-width: 1100px;
+  margin: 2.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.journal-card {
+  background: linear-gradient(to bottom right, #ffffff, #f0f8ff);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.05);
+  padding: 2.5rem;
+  flex: 1 1 400px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.3s;
+}
+
+.journal-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15), 0 7px 20px rgba(0,0,0,0.1);
+  background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+}
+
+.journal-card textarea {
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journal-card textarea:focus {
+  border-color: #00796b;
+  box-shadow: 0 0 8px rgba(0,121,107,0.3);
+  outline: none;
+}
+
+.journal-card button {
+  background: #00796b;
+  color: #fff;
+  border: none;
+  padding: 0.9rem 1.8rem;
+  border-radius: 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.journal-card button:hover {
+  background: #004d40;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Smooth entry animation for journal entries */
+.journal-card p {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.journal-card p.enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.journal-card p.leave {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.journal-card p {
+  background: #f8fcff;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  margin-bottom: 1.2rem;
+  word-break: break-word;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.journal-card p:hover {
+  background: #e0f7fa;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.journal-card p strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #00796b;
+  font-weight: 600;
+}
+
+.journal-card p .deleteBtn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-top: 0.6rem;
+  transition: background 0.3s, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.journal-card p .deleteBtn:hover {
+  background: #b71c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.journal-container + .hero,
+.hero {
+  text-align: center;
+  padding: 3.5rem 1.5rem;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+  border-radius: 1.5rem;
+  margin: 2.5rem auto;
+  max-width: 1050px;
+}
+
+/* ---------------- Chat Messages ---------------- */
+.chat-message {
+  margin-bottom: 0.8rem;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  max-width: 80%;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* User messages */
+.chat-message.You {
+  background: #00796b;
+  color: #fff;
+  align-self: flex-end;
+  text-align: right;
+}
+
+/* AI messages */
+.chat-message.MindCare {
+  background: #e0f7fa;
+  color: #00796b;
+  align-self: flex-start;
+  text-align: left;
+}

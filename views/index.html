@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCare — Home</title>
+
+  <!-- Favicon (Open Palm Concept) -->
+  <link rel="icon" type="image/svg+xml" 
+  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <h1>MindCare</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/resources">Resources</a>
+      <a href="/chatbot">Chatbot</a>
+      <a href="/mood-tracker">Mood Tracker</a>
+      <a href="/contact">Contact</a>
+      <a href="/journal">Journal</a>
+      <a href="/journal-folder">My Journal Folder</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" style="background: linear-gradient(to right, #e0f7fa, #fffaf0); text-align:center; padding:3rem 1rem;">
+    <h2>Welcome to MindCare</h2>
+    <p>Your safe space for mental health awareness, self-assessment, and support.</p>
+    <a href="/resources" class="cta-btn" style="padding:0.75rem 1.5rem; background:#00796b; color:white; border-radius:8px; text-decoration:none;">Explore Resources</a>
+  </section>
+
+  <!-- Services / Cards Section -->
+  <section class="cards" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; padding:2rem;">
+    <div class="card">
+      <h3>Learn About Mental Health</h3>
+      <p>Explore articles, tips, and guides to improve your mental wellbeing.</p>
+      <a href="/resources">Read More</a>
+    </div>
+    <div class="card">
+      <h3>Track Your Mood</h3>
+      <p>Use our interactive mood tracker to understand your emotional patterns.</p>
+      <a href="/mood-tracker">Track Now</a>
+    </div>
+    <div class="card">
+      <h3>Chat for Support</h3>
+      <p>Our AI-powered chatbot is here to listen and provide guidance.</p>
+      <a href="/chatbot">Start Chatting</a>
+    </div>
+  </section>
+
+  <!-- Info / Stats Section -->
+  <section class="stats" style="display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; padding:2rem 1rem; text-align:center;">
+    <div class="stat-card" style="background:white; padding:1rem 2rem; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); width:220px;">
+      <h3>1 in 8</h3>
+      <p>People live with a mental disorder worldwide.</p>
+    </div>
+    <div class="stat-card" style="background:white; padding:1rem 2rem; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); width:220px;">
+      <h3>50%</h3>
+      <p>Of mental health conditions start by age 14.</p>
+    </div>
+    <div class="stat-card" style="background:white; padding:1rem 2rem; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); width:220px;">
+      <h3>Depression</h3>
+      <p>Is a leading cause of disability globally.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#00796b; color:white; padding:2rem 1rem; text-align:center;">
+    <div class="footer-content" style="max-width:600px; margin:auto;">
+      <p>&copy; 2025 MindCare. All rights reserved.</p>
+      <form style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem;">
+        <label for="newsletter" style="flex-basis:100%;">Subscribe to our newsletter:</label>
+        <input type="email" id="newsletter" placeholder="Enter your email" style="flex:1; padding:0.5rem; border-radius:6px; border:none;">
+        <button type="submit" style="padding:0.5rem 1rem; border:none; border-radius:6px; background:white; color:#00796b; cursor:pointer;">Subscribe</button>
+      </form>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

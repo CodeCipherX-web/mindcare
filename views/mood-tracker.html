@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCare — Mood Tracker</title>
+
+  <!-- Favicon (Open Palm Concept) -->
+  <link rel="icon" type="image/svg+xml" 
+  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>MindCare</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/resources">Resources</a>
+      <a href="/chatbot">Chatbot</a>
+      <a href="/mood-tracker">Mood Tracker</a>
+      <a href="/contact">Contact</a>
+      <a href="/journal">Journal</a>
+      <a href="/journal-folder">My Journal Folder</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Track Your Mood</h2>
+    <p>Log your daily emotions and gain insights about your mental wellbeing over time.</p>
+  </section>
+
+  <!-- Mood Tracker Section -->
+  <section class="tracker-container">
+    <div class="tracker-card">
+      <h3>Daily Mood Log</h3>
+      <select id="moodSelect">
+        <option value="">Select your mood</option>
+        <option value="happy">😊 Happy</option>
+        <option value="neutral">😐 Neutral</option>
+        <option value="sad">😔 Sad</option>
+        <option value="anxious">😟 Anxious</option>
+        <option value="angry">😡 Angry</option>
+      </select>
+      <button id="logMood">Log Mood</button>
+
+      <!-- Mood History -->
+      <div id="moodHistory" class="mood-history"></div>
+
+      <!-- Mood Graph -->
+      <canvas id="moodChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="tracker-card">
+      <h3>Motivational Tips</h3>
+      <p>"Every emotion is valid. Acknowledge it."</p>
+      <p>"Check-in with yourself regularly."</p>
+      <p>"Small positive actions can boost your mood."</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 MindCare. All rights reserved.</p>
+      <form>
+        <label for="newsletter">Subscribe to our newsletter:</label>
+        <input type="email" id="newsletter" placeholder="Enter your email">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

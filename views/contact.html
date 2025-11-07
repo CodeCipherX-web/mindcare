@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCare — Contact Us</title>
+
+  <!-- Favicon (Open Palm Concept) -->
+  <link rel="icon" type="image/svg+xml" 
+  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>MindCare</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/resources">Resources</a>
+      <a href="/chatbot">Chatbot</a>
+      <a href="/mood-tracker">Mood Tracker</a>
+      <a href="/contact">Contact</a>
+      <a href="/journal">Journal</a>
+      <a href="/journal-folder">My Journal Folder</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Contact Us</h2>
+    <p>Have questions or need support? Reach out to us and we’ll get back to you as soon as possible.</p>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <!-- Contact Form Card -->
+    <div class="contact-card">
+      <h3>Send Us a Message</h3>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+
+    <!-- Contact Info Card -->
+    <div class="contact-card">
+      <h3>Our Contact Info</h3>
+      <div class="contact-info">
+        <p><i class="fas fa-phone"></i> +254 700 000 000</p>
+        <p><i class="fas fa-envelope"></i> support@mindcare.com</p>
+        <p><i class="fas fa-map-marker-alt"></i> Nairobi, Kenya</p>
+      </div>
+
+      <h3>Follow Us</h3>
+      <div class="contact-info">
+        <p><i class="fab fa-facebook"></i> /MindCare</p>
+        <p><i class="fab fa-twitter"></i> @MindCareKE</p>
+        <p><i class="fab fa-instagram"></i> @MindCareKE</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 MindCare. All rights reserved.</p>
+      <form>
+        <label for="newsletter">Subscribe to our newsletter:</label>
+        <input type="email" id="newsletter" placeholder="Enter your email">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    // Simple form submission (prevent default and show alert)
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you! Your message has been sent.');
+      contactForm.reset();
+    });
+  </script>
+</body>
+</html>
