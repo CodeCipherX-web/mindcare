@@ -9,41 +9,54 @@
   <link rel="icon" type="image/svg+xml" 
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/mental-health-platform/public/css/style.css">
 </head>
 <body>
   <!-- Header -->
   <header>
-    <h1>MindCare</h1>
+    <h1>
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" fill="url(#logoGradientJournal)"/>
+        <path d="M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M32 22a6 6 0 0 1 6 6" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="logoGradientJournal" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      MindCare
+    </h1>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="menu-overlay" id="menuOverlay"></div>
     <nav>
-      <a href="/">Home</a>
-      <a href="/resources">Resources</a>
-      <a href="/chatbot">Chatbot</a>
-      <a href="/mood-tracker">Mood Tracker</a>
-      <a href="/contact">Contact</a>
-      <a href="/journal">Journal</a>
-      <a href="/journal-folder">My Journal Folder</a>
+      <a href="/mental-health-platform/views/index.html">🏠 Home</a>
+      <a href="/mental-health-platform/views/resources.html">📚 Resources</a>
+      <a href="/mental-health-platform/views/chatbot.html">💬 Chatbot</a>
+      <a href="/mental-health-platform/views/mood-tracker.html">📊 Mood Tracker</a>
+      <a href="/mental-health-platform/views/contact.html">📧 Contact</a>
+      <a href="/mental-health-platform/views/therapists.html" style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 5px;">🆘 Find Help</a>
+      <a href="/mental-health-platform/views/journal.html">📔 Journal</a>
+      <a href="/mental-health-platform/views/journal-folder.html">📁 My Journal Folder</a>
       <span id="authLinks">
-        <a href="/login" id="loginLink">Login</a>
-        <a href="/signup" id="signupLink" style="background: #00796b; color: white; padding: 0.5rem 1rem; border-radius: 5px; margin-left: 0.5rem;">Sign Up</a>
+        <a href="/mental-health-platform/views/login.html" id="loginLink">🔐 Login</a>
+        <a href="/mental-health-platform/views/signup.html" id="signupLink" style="background: #00796b; color: white; padding: 0.5rem 1rem; border-radius: 5px; margin-left: 0.5rem;">✨ Sign Up</a>
       </span>
     </nav>
-    <script>
-      if (localStorage.getItem('token')) {
-        const authLinks = document.getElementById('authLinks');
-        const username = localStorage.getItem('username') || 'User';
-        authLinks.innerHTML = `
-          <span style="margin-right: 1rem; color: #00796b; font-weight: 500;">Welcome, ${username}</span>
-          <a href="#" onclick="localStorage.removeItem('token'); localStorage.removeItem('userId'); localStorage.removeItem('username'); window.location.href='/';" style="color: #c62828;">Logout</a>
-        `;
-      }
-    </script>
   </header>
-
+  <script src="/mental-health-platform/public/js/user-profile.js"></script>
   <!-- Hero Section -->
   <section class="hero">
-    <h2>Your Personal Journal</h2>
-    <p>Write down your thoughts, feelings, and daily experiences. It's safe and private.</p>
+    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=600&fit=crop&q=80" 
+         alt="Personal Journal" class="hero-image"
+         onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=600&fit=crop&q=80'">
+    <h2 class="gradient-text">Your Personal Journal</h2>
+    <p>Write down your thoughts, feelings, and daily experiences. It's safe, private, and completely yours.</p>
   </section>
 
   <!-- Journal Entry Form -->
@@ -76,11 +89,11 @@
     </div>
   </footer>
 
-  <script src="/js/main.js"></script>
+  <script src="/mental-health-platform/public/js/main.js"></script>
   <script>
     // Check authentication on page load
     if (!localStorage.getItem('token')) {
-      window.location.href = '/login';
+      window.location.href = '/mental-health-platform/views/login.html';
     }
   </script>
 </body>

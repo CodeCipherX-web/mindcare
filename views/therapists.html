@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindCare — Find Professional Help</title>
+
+  <!-- Favicon (Open Palm Concept) -->
+  <link rel="icon" type="image/svg+xml" 
+  href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="/mental-health-platform/public/css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" fill="url(#logoGradientTherapists)"/>
+        <path d="M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M32 22a6 6 0 0 1 6 6" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="logoGradientTherapists" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      MindCare
+    </h1>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <nav>
+      <a href="/mental-health-platform/views/index.html">🏠 Home</a>
+      <a href="/mental-health-platform/views/resources.html">📚 Resources</a>
+      <a href="/mental-health-platform/views/chatbot.html">💬 Chatbot</a>
+      <a href="/mental-health-platform/views/mood-tracker.html">📊 Mood Tracker</a>
+      <a href="/mental-health-platform/views/contact.html">📧 Contact</a>
+      <a href="/mental-health-platform/views/journal.html">📔 Journal</a>
+      <a href="/mental-health-platform/views/journal-folder.html">📁 My Journal Folder</a>
+      <a href="/therapists" style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 5px;">🆘 Find Help</a>
+      <span id="authLinks">
+        <a href="/mental-health-platform/views/login.html" id="loginLink">🔐 Login</a>
+        <a href="/mental-health-platform/views/signup.html" id="signupLink" style="background: #00796b; color: white; padding: 0.5rem 1rem; border-radius: 5px; margin-left: 0.5rem;">✨ Sign Up</a>
+      </span>
+    </nav>
+  </header>
+  <script src="/mental-health-platform/public/js/user-profile.js"></script>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200&h=600&fit=crop&q=80" 
+         alt="Professional Mental Health Support" class="hero-image"
+         onerror="this.src='https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&h=600&fit=crop&q=80'">
+    <h2 class="gradient-text">Find Professional Help</h2>
+    <p>Connect with licensed therapists and psychiatrists who are here to support you on your mental health journey.</p>
+  </section>
+
+  <!-- Therapists Section -->
+  <section class="therapists-section" style="padding: 3rem 2rem; max-width: 1200px; margin: 0 auto;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: 2.5rem; color: #667eea; margin-bottom: 1rem;">Licensed Therapists</h2>
+      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto;">
+        Our team of experienced therapists specializes in various areas of mental health and wellness.
+      </p>
+    </div>
+
+    <div class="therapists-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+      
+      <!-- Therapist 1 -->
+      <div class="therapist-card" style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div class="therapist-image" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden; border: 4px solid #667eea;">
+          <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=300&h=300&fit=crop&q=80" 
+               alt="Dr. Sarah Johnson" 
+               style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h3 style="text-align: center; color: #667eea; margin-bottom: 0.5rem; font-size: 1.5rem;">Dr. Sarah Johnson</h3>
+        <p style="text-align: center; color: #888; margin-bottom: 1rem; font-size: 0.95rem;">Licensed Clinical Psychologist</p>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem;">
+          Specializes in anxiety disorders, depression, and trauma therapy. Over 10 years of experience helping individuals overcome life's challenges.
+        </p>
+        <div style="text-align: center;">
+          <a href="mailto:sarah.johnson@mindcare.com" 
+             style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s ease;">
+            📧 Contact Dr. Johnson
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">
+          Email: <a href="mailto:sarah.johnson@mindcare.com" style="color: #667eea;">sarah.johnson@mindcare.com</a>
+        </p>
+      </div>
+
+      <!-- Therapist 2 -->
+      <div class="therapist-card" style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div class="therapist-image" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden; border: 4px solid #667eea;">
+          <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop&q=80" 
+               alt="Dr. Michael Chen" 
+               style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h3 style="text-align: center; color: #667eea; margin-bottom: 0.5rem; font-size: 1.5rem;">Dr. Michael Chen</h3>
+        <p style="text-align: center; color: #888; margin-bottom: 1rem; font-size: 0.95rem;">Licensed Marriage & Family Therapist</p>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem;">
+          Expert in relationship counseling, family dynamics, and communication strategies. Helps couples and families build stronger connections.
+        </p>
+        <div style="text-align: center;">
+          <a href="mailto:michael.chen@mindcare.com" 
+             style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s ease;">
+            📧 Contact Dr. Chen
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">
+          Email: <a href="mailto:michael.chen@mindcare.com" style="color: #667eea;">michael.chen@mindcare.com</a>
+        </p>
+      </div>
+
+      <!-- Therapist 3 -->
+      <div class="therapist-card" style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div class="therapist-image" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden; border: 4px solid #667eea;">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&q=80" 
+               alt="Dr. Emily Rodriguez" 
+               style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h3 style="text-align: center; color: #667eea; margin-bottom: 0.5rem; font-size: 1.5rem;">Dr. Emily Rodriguez</h3>
+        <p style="text-align: center; color: #888; margin-bottom: 1rem; font-size: 0.95rem;">Licensed Clinical Social Worker</p>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem;">
+          Specializes in stress management, work-life balance, and mindfulness-based therapy. Helps clients find peace and clarity in their daily lives.
+        </p>
+        <div style="text-align: center;">
+          <a href="mailto:emily.rodriguez@mindcare.com" 
+             style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s ease;">
+            📧 Contact Dr. Rodriguez
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">
+          Email: <a href="mailto:emily.rodriguez@mindcare.com" style="color: #667eea;">emily.rodriguez@mindcare.com</a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Psychiatrists Section -->
+    <div style="text-align: center; margin: 4rem 0 3rem;">
+      <h2 style="font-size: 2.5rem; color: #667eea; margin-bottom: 1rem;">Licensed Psychiatrists</h2>
+      <p style="font-size: 1.1rem; color: #666; max-width: 700px; margin: 0 auto;">
+        Board-certified psychiatrists who can provide medication management and comprehensive mental health treatment.
+      </p>
+    </div>
+
+    <div class="psychiatrists-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+      
+      <!-- Psychiatrist 1 -->
+      <div class="psychiatrist-card" style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div class="psychiatrist-image" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden; border: 4px solid #00796b;">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&q=80" 
+               alt="Dr. James Wilson" 
+               style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h3 style="text-align: center; color: #00796b; margin-bottom: 0.5rem; font-size: 1.5rem;">Dr. James Wilson</h3>
+        <p style="text-align: center; color: #888; margin-bottom: 1rem; font-size: 0.95rem;">Board-Certified Psychiatrist</p>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem;">
+          Specializes in mood disorders, ADHD, and psychiatric medication management. Over 15 years of experience in clinical psychiatry.
+        </p>
+        <div style="text-align: center;">
+          <a href="mailto:james.wilson@mindcare.com" 
+             style="display: inline-block; background: linear-gradient(135deg, #00796b 0%, #004d40 100%); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s ease;">
+            📧 Contact Dr. Wilson
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">
+          Email: <a href="mailto:james.wilson@mindcare.com" style="color: #00796b;">james.wilson@mindcare.com</a>
+        </p>
+      </div>
+
+      <!-- Psychiatrist 2 -->
+      <div class="psychiatrist-card" style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div class="psychiatrist-image" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden; border: 4px solid #00796b;">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&q=80" 
+               alt="Dr. Lisa Thompson" 
+               style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h3 style="text-align: center; color: #00796b; margin-bottom: 0.5rem; font-size: 1.5rem;">Dr. Lisa Thompson</h3>
+        <p style="text-align: center; color: #888; margin-bottom: 1rem; font-size: 0.95rem;">Board-Certified Child & Adolescent Psychiatrist</p>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem;">
+          Expert in pediatric mental health, anxiety disorders in children, and family-centered treatment approaches. Dedicated to helping young minds thrive.
+        </p>
+        <div style="text-align: center;">
+          <a href="mailto:lisa.thompson@mindcare.com" 
+             style="display: inline-block; background: linear-gradient(135deg, #00796b 0%, #004d40 100%); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s ease;">
+            📧 Contact Dr. Thompson
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">
+          Email: <a href="mailto:lisa.thompson@mindcare.com" style="color: #00796b;">lisa.thompson@mindcare.com</a>
+        </p>
+      </div>
+
+      <!-- Psychiatrist 3 -->
+      <div class="psychiatrist-card" style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div class="psychiatrist-image" style="width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden; border: 4px solid #00796b;">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=300&fit=crop&q=80" 
+               alt="Dr. Robert Martinez" 
+               style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <h3 style="text-align: center; color: #00796b; margin-bottom: 0.5rem; font-size: 1.5rem;">Dr. Robert Martinez</h3>
+        <p style="text-align: center; color: #888; margin-bottom: 1rem; font-size: 0.95rem;">Board-Certified Psychiatrist</p>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.9rem;">
+          Specializes in addiction psychiatry, dual diagnosis, and recovery support. Committed to helping individuals achieve lasting recovery and wellness.
+        </p>
+        <div style="text-align: center;">
+          <a href="mailto:robert.martinez@mindcare.com" 
+             style="display: inline-block; background: linear-gradient(135deg, #00796b 0%, #004d40 100%); color: white; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.2s ease;">
+            📧 Contact Dr. Martinez
+          </a>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">
+          Email: <a href="mailto:robert.martinez@mindcare.com" style="color: #00796b;">robert.martinez@mindcare.com</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Important Notice Section -->
+  <section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem 2rem; margin: 3rem 0; color: white;">
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Important Information</h2>
+      <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+        If you're experiencing a mental health crisis or having thoughts of self-harm, please contact emergency services immediately:
+      </p>
+      <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;">
+        <div>
+          <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">🆘 Emergency</p>
+          <p style="font-size: 1.2rem;">911</p>
+        </div>
+        <div>
+          <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">📞 Crisis Hotline</p>
+          <p style="font-size: 1.2rem;">988 (Suicide & Crisis Lifeline)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 MindCare. All rights reserved.</p>
+      <form>
+        <label for="newsletter">Subscribe to our newsletter:</label>
+        <input type="email" id="newsletter" placeholder="Enter your email">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </footer>
+
+  <!-- Link to main.js -->
+  <script src="/mental-health-platform/public/js/main.js"></script>
+  
+  <style>
+    .therapist-card:hover,
+    .psychiatrist-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+    }
+    
+    .therapist-card a:hover,
+    .psychiatrist-card a:hover {
+      transform: scale(1.05);
+    }
+    
+    @media (max-width: 768px) {
+      .therapists-grid,
+      .psychiatrists-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</body>
+</html>
+

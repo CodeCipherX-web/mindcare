@@ -9,13 +9,15 @@
   <link rel="icon" type="image/svg+xml" 
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/mental-health-platform/public/css/style.css">
 </head>
 <body class="auth-page">
   <div class="auth-container">
     <div class="auth-card">
       <div class="auth-header">
-        <h1>MindCare</h1>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='logoGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23667eea'/%3E%3Cstop offset='100%25' style='stop-color:%23764ba2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='url(%23logoGrad)'/%3E%3Cpath d='M30,45 L45,60 L70,35' stroke='white' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" 
+             alt="MindCare Logo" style="width: 80px; height: 80px; margin: 0 auto 1rem; display: block;">
+        <h1 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">MindCare</h1>
         <h2>Create Account</h2>
         <p>Start your mental health journey today</p>
       </div>
@@ -46,59 +48,313 @@
         <button type="submit" class="auth-btn">Create Account</button>
       </form>
 
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <button type="button" id="googleSignUp" class="google-auth-btn" style="cursor: pointer;">
+        <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right: 8px;">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        <span id="googleSignUpText">Sign up with Google</span>
+      </button>
+
       <div class="auth-footer">
-        <p>Already have an account? <a href="/login">Sign in</a></p>
-        <p><a href="/">Back to Home</a></p>
+        <p>Already have an account? <a href="/mental-health-platform/views/login.html">Sign in</a></p>
+        <p><a href="/mental-health-platform/views/index.html">Back to Home</a></p>
       </div>
     </div>
   </div>
 
-  <script src="/js/main.js"></script>
-  <script>
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+<script src="/mental-health-platform/public/js/main.js"></script>
+<script type="module">
+    // Initialize Supabase for OAuth
+    async function initGoogleAuth() {
+      const googleButton = document.getElementById('googleSignUp');
       const errorDiv = document.getElementById('signupError');
-      errorDiv.style.display = 'none';
-
-      const username = document.getElementById('signupUsername').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('signupPassword').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-
-      if (password !== confirmPassword) {
-        errorDiv.textContent = 'Passwords do not match';
-        errorDiv.style.display = 'block';
+      
+      if (!googleButton || !errorDiv) {
+        console.error('❌ Required elements not found');
         return;
       }
-
-      if (password.length < 6) {
-        errorDiv.textContent = 'Password must be at least 6 characters';
-        errorDiv.style.display = 'block';
-        return;
-      }
-
+      
       try {
-        const res = await fetch('/api/auth/signup', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, email, password })
+        console.log('🔍 Fetching Supabase config...');
+        
+        // Get API base URL (works with Node.js server)
+        // Check if we're on the Node.js server (port 3000) or another server (like Live Server)
+        const currentPort = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
+        const apiBaseUrl = currentPort === '3000' ? '' : 'http://localhost:3000';
+        const configUrl = `${apiBaseUrl}/api/auth/config`;
+        console.log('🔗 Current port:', currentPort);
+        console.log('🔗 Config URL:', configUrl);
+        
+        const response = await fetch(configUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          mode: 'cors'
         });
-
-        const data = await res.json();
-
-        if (data.success) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('userId', data.userId);
-          localStorage.setItem('username', data.username);
-          window.location.href = '/journal';
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('❌ Config fetch failed:', response.status, errorText);
+          throw new Error(`HTTP error! status: ${response.status}. ${errorText || 'Endpoint not found'}`);
+        }
+        
+        const config = await response.json();
+        console.log('📋 Config received:', { url: config.supabaseUrl, hasKey: !!config.supabaseAnonKey });
+        
+        if (!config.supabaseUrl || !config.supabaseAnonKey) {
+          throw new Error('Supabase configuration incomplete. Missing URL or anon key.');
+        }
+        
+        console.log('📦 Loading Supabase client...');
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+        const supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
+        console.log('✅ Supabase client initialized');
+        
+        // Handle Google sign-up button
+        const handleGoogleSignUp = async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🔵 Google sign-up button clicked');
+          
+          try {
+            googleButton.disabled = true;
+            const textSpan = document.getElementById('googleSignUpText');
+            if (textSpan) textSpan.textContent = 'Redirecting to Google...';
+            
+            console.log('🔄 Initiating OAuth flow...');
+            // Get the correct redirect URL based on server
+            const currentPort = window.location.port || (window.location.protocol === 'https:' ? '443' : '80');
+            const redirectUrl = currentPort === '3000' 
+              ? `${window.location.origin}/auth/callback`
+              : `http://localhost:3000/auth/callback`;
+            
+            console.log('🔄 Redirect URL:', redirectUrl);
+            
+            const { data, error } = await supabase.auth.signInWithOAuth({
+              provider: 'google',
+              options: {
+                redirectTo: redirectUrl,
+                queryParams: {
+                  access_type: 'offline',
+                  prompt: 'consent',
+                }
+              }
+            });
+            
+            if (error) {
+              console.error('❌ OAuth error:', error);
+              console.error('❌ Error details:', JSON.stringify(error, null, 2));
+              
+              // Check for specific Supabase errors
+              const errorMsg = error.message || error.msg || JSON.stringify(error);
+              if (errorMsg.includes('provider is not enabled') || 
+                  errorMsg.includes('Unsupported provider') ||
+                  error.code === 400 && error.error_code === 'validation_failed') {
+                throw new Error('Google OAuth is not enabled in Supabase. Please enable it in your Supabase Dashboard > Authentication > Providers > Google. You need to add your Google OAuth Client ID and Secret. See ENABLE_GOOGLE_OAUTH.md for detailed instructions.');
+              }
+              
+              throw error;
+            }
+            
+            console.log('✅ OAuth redirect initiated:', data);
+            // Redirect will happen automatically via data.url
+            if (data && data.url) {
+              console.log('🌐 Redirecting to:', data.url);
+              window.location.href = data.url;
+            } else {
+              throw new Error('No redirect URL received from OAuth provider');
+            }
+          } catch (err) {
+            console.error('❌ Google sign-up error:', err);
+            googleButton.disabled = false;
+            const textSpan = document.getElementById('googleSignUpText');
+            if (textSpan) textSpan.textContent = 'Sign up with Google';
+            if (errorDiv) {
+              let errorMessage = `Failed to sign up with Google: ${err.message || 'Please check your configuration and try again.'}`;
+              
+              // Provide helpful error messages
+              const errMsg = err.message || err.msg || JSON.stringify(err);
+              if (errMsg.includes('provider is not enabled') || 
+                  errMsg.includes('Unsupported provider') ||
+                  errMsg.includes('validation_failed')) {
+                errorMessage = 'Google OAuth is not enabled in Supabase. Please enable it in your Supabase Dashboard: Authentication > Providers > Google. You need to add your Google OAuth Client ID and Secret. See ENABLE_GOOGLE_OAUTH.md for detailed instructions.';
+              }
+              
+              errorDiv.textContent = errorMessage;
+              errorDiv.style.display = 'block';
+            }
+          }
+        };
+        
+        // Attach event listener with multiple methods for reliability
+        googleButton.addEventListener('click', handleGoogleSignUp, { capture: true });
+        googleButton.onclick = handleGoogleSignUp; // Fallback
+        
+        console.log('✅ Google auth button handler attached');
+      } catch (err) {
+        console.error('❌ Failed to initialize Google auth:', err);
+        console.error('Error details:', err);
+        
+        // Don't show error if server is just not running - hide the button instead
+        if (err.message && err.message.includes('404')) {
+          console.warn('⚠️ Google sign-in endpoint not found. Server may not be running.');
+          if (googleButton) {
+            googleButton.style.display = 'none'; // Hide button instead of showing error
+          }
+          // Don't show error message for 404 - just hide the button
         } else {
-          errorDiv.textContent = data.error || 'Signup failed';
+          if (errorDiv) {
+            errorDiv.textContent = `Google sign-up is not available: ${err.message || 'Unknown error'}. Please use email/password or contact support.`;
+            errorDiv.style.display = 'block';
+          }
+          if (googleButton) {
+            googleButton.style.opacity = '0.5';
+            googleButton.disabled = true;
+            googleButton.title = 'Google sign-up is not configured';
+            googleButton.style.cursor = 'not-allowed';
+          }
+        }
+      }
+    }
+    
+    // Wait for DOM to be ready
+    const initWhenReady = () => {
+      const button = document.getElementById('googleSignUp');
+      if (button) {
+        initGoogleAuth();
+      } else {
+        console.warn('⚠️ Google sign-up button not found, retrying...');
+        setTimeout(initWhenReady, 100);
+      }
+    };
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWhenReady);
+    } else {
+      initWhenReady();
+    }
+  </script>
+  <script>
+    // Wait for DOM to be fully loaded before accessing elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Handle URL errors
+      const urlParams = new URLSearchParams(window.location.search);
+      const error = urlParams.get('error');
+      const errorDiv = document.getElementById('signupError');
+      
+      if (error && errorDiv) {
+        let errorMessage = 'Authentication failed. Please try again.';
+        
+        if (error === 'oauth_not_enabled') {
+          errorMessage = 'Google OAuth is not enabled in Supabase. Please enable it in your Supabase Dashboard: Authentication > Providers > Google. You need to add your Google OAuth Client ID and Secret. See ENABLE_GOOGLE_OAUTH.md for detailed instructions.';
+        } else if (error === 'oauth_cancelled') {
+          errorMessage = 'Google sign-in was cancelled. You can try again or use email/password to sign up.';
+        } else if (error === 'oauth_failed') {
+          errorMessage = 'Google sign-in failed. Please check your Supabase configuration and try again.';
+        }
+        
+        errorDiv.textContent = errorMessage;
+        errorDiv.style.display = 'block';
+      }
+
+      // Handle form submission
+      const signupForm = document.getElementById('signupForm');
+      if (!signupForm) {
+        console.error('❌ Signup form not found');
+        return;
+      }
+
+      signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const errorDiv = document.getElementById('signupError');
+        const usernameInput = document.getElementById('signupUsername');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('signupPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        
+        if (!errorDiv || !usernameInput || !emailInput || !passwordInput || !confirmPasswordInput) {
+          console.error('❌ Required form elements not found');
+          return;
+        }
+
+        errorDiv.style.display = 'none';
+
+        const username = usernameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        // Validation
+        if (!username || !email || !password || !confirmPassword) {
+          errorDiv.textContent = 'Please fill in all fields';
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        if (username.length < 3) {
+          errorDiv.textContent = 'Username must be at least 3 characters';
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        if (!email.includes('@') || !email.includes('.')) {
+          errorDiv.textContent = 'Please enter a valid email address';
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          errorDiv.textContent = 'Passwords do not match';
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        if (password.length < 6) {
+          errorDiv.textContent = 'Password must be at least 6 characters';
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        try {
+          const res = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+          });
+
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({ error: 'Server error' }));
+            throw new Error(errorData.error || `HTTP error! status: ${res.status}`);
+          }
+
+          const data = await res.json();
+
+          if (data.success) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.userId);
+            localStorage.setItem('username', data.username);
+            window.location.href = '/mental-health-platform/views/journal.html';
+          } else {
+            errorDiv.textContent = data.error || 'Signup failed. Please try again.';
+            errorDiv.style.display = 'block';
+            console.error('Signup error:', data);
+          }
+        } catch (err) {
+          console.error('❌ Signup error:', err);
+          errorDiv.textContent = err.message || 'Network error. Please check your connection and try again.';
           errorDiv.style.display = 'block';
         }
-      } catch (err) {
-        errorDiv.textContent = 'Network error. Please try again.';
-        errorDiv.style.display = 'block';
-      }
+      });
     });
   </script>
 </body>

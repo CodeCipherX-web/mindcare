@@ -1,8 +1,11 @@
 -- MindCare Mental Health Platform Database Schema
 -- MariaDB/MySQL compatible
+-- Note: Make sure to use the correct database name as specified in your .env file
+-- If your DB_NAME is 'mindcare', this script will create tables in that database
+-- If your DB_NAME is 'mindcare_db', uncomment the lines below:
 
-CREATE DATABASE IF NOT EXISTS mindcare_db;
-USE mindcare_db;
+-- CREATE DATABASE IF NOT EXISTS mindcare_db;
+-- USE mindcare_db;
 
 -- Moods table for tracking user moods
 CREATE TABLE IF NOT EXISTS moods (

@@ -9,28 +9,55 @@
   <link rel="icon" type="image/svg+xml" 
   href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2300b4d8'/%3E%3Cpath d='M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M32 22a6 6 0 0 1 6 6' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/mental-health-platform/public/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <h1>MindCare</h1>
+    <h1>
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" fill="url(#logoGradientMood)"/>
+        <path d="M20 36c0-5 4-9 9-9s9 4 9 9v10c0 3 2 5 5 5s5-2 5-5V36" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M32 22a6 6 0 0 1 6 6" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="logoGradientMood" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      MindCare
+    </h1>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="menu-overlay" id="menuOverlay"></div>
     <nav>
-      <a href="/">Home</a>
-      <a href="/resources">Resources</a>
-      <a href="/chatbot">Chatbot</a>
-      <a href="/mood-tracker">Mood Tracker</a>
-      <a href="/contact">Contact</a>
-      <a href="/journal">Journal</a>
-      <a href="/journal-folder">My Journal Folder</a>
+      <a href="/mental-health-platform/views/index.html">🏠 Home</a>
+      <a href="/mental-health-platform/views/resources.html">📚 Resources</a>
+      <a href="/mental-health-platform/views/chatbot.html">💬 Chatbot</a>
+      <a href="/mental-health-platform/views/mood-tracker.html">📊 Mood Tracker</a>
+      <a href="/mental-health-platform/views/contact.html">📧 Contact</a>
+      <a href="/mental-health-platform/views/therapists.html" style="background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 5px;">🆘 Find Help</a>
+      <a href="/mental-health-platform/views/journal.html">📔 Journal</a>
+      <a href="/mental-health-platform/views/journal-folder.html">📁 My Journal Folder</a>
+      <span id="authLinks">
+        <a href="/mental-health-platform/views/login.html" id="loginLink">🔐 Login</a>
+        <a href="/mental-health-platform/views/signup.html" id="signupLink" style="background: #00796b; color: white; padding: 0.5rem 1rem; border-radius: 5px; margin-left: 0.5rem;">✨ Sign Up</a>
+      </span>
     </nav>
   </header>
-
+  <script src="/mental-health-platform/public/js/user-profile.js"></script>
   <!-- Hero Section -->
   <section class="hero">
-    <h2>Track Your Mood</h2>
-    <p>Log your daily emotions and gain insights about your mental wellbeing over time.</p>
+    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&h=600&fit=crop&q=80" 
+         alt="Mood Tracker" class="hero-image"
+         onerror="this.src='https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&h=600&fit=crop&q=80'">
+    <h2 class="gradient-text">Track Your Mood</h2>
+    <p>Log your daily emotions and gain valuable insights about your mental wellbeing over time.</p>
   </section>
 
   <!-- Mood Tracker Section -->
@@ -51,14 +78,23 @@
       <div id="moodHistory" class="mood-history"></div>
 
       <!-- Mood Graph -->
-      <canvas id="moodChart" width="400" height="200"></canvas>
+      <div class="chart-container" style="margin-top: 2rem; position: relative; height: 300px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.9)); padding: 1.5rem; border-radius: 16px; box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6); border: 1px solid rgba(102, 126, 234, 0.2);">
+        <h4 style="margin-bottom: 1rem; color: #667eea; font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📈</span>
+          <span>Mood Trend</span>
+        </h4>
+        <canvas id="moodChart"></canvas>
+      </div>
     </div>
 
     <div class="tracker-card">
-      <h3>Motivational Tips</h3>
-      <p>"Every emotion is valid. Acknowledge it."</p>
-      <p>"Check-in with yourself regularly."</p>
-      <p>"Small positive actions can boost your mood."</p>
+      <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=300&fit=crop&q=80" 
+           class="card-icon" alt="Tips" style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 1rem;">
+      <h3>💡 Motivational Tips</h3>
+      <p style="color: #666; font-size: 1rem; line-height: 1.8; margin-bottom: 1rem;">"Every emotion is valid. Acknowledge it."</p>
+      <p style="color: #666; font-size: 1rem; line-height: 1.8; margin-bottom: 1rem;">"Check-in with yourself regularly."</p>
+      <p style="color: #666; font-size: 1rem; line-height: 1.8; margin-bottom: 1rem;">"Small positive actions can boost your mood."</p>
+      <p style="color: #666; font-size: 1rem; line-height: 1.8;">"Tracking helps you understand patterns."</p>
     </div>
   </section>
 
@@ -74,6 +110,6 @@
     </div>
   </footer>
 
-  <script src="/js/main.js"></script>
+  <script src="/mental-health-platform/public/js/main.js"></script>
 </body>
 </html>
